@@ -29,15 +29,14 @@
 | Campo | Obrigatório | Tipo  | Descrição |
 |-------|:-----------:|-------|-----------|
 
-|Genero|sim|texo|Definir se é Fêmea ou Macho
-|Raça|sim|texto| deverá escolher a raça do animal
-|animal_id|sim|int| O id do animal, deve ser uma categoria previamente cadastrada
-|nome|sim|texto|deve escerever o nome do animal
-|peso|sim|float|definir o peso do animal
-|idade |sim|decimal|a idade do animal, deve ser maior que zero
+|Genero|sim|texo|Definir se é Fêmea ou Macho|
+|Raça|sim|texto| deverá escolher a raça do animal|
+|animal_id|sim|int| O id do animal, deve ser uma categoria previamente cadastrada|
+|nome|sim|texto|deve escerever o nome do animal|
+|peso|sim|float|definir o peso do animal|
+|idade |sim|decimal|a idade do animal, deve ser maior que zero|
 ||||
-|dt nascimento|sim|data| a data do nascimento do animal
-|descricao|não|texto| uma descrição da despesa com no máximo 255 caracteres
+|dt nascimento|sim|data| a data do nascimento do animal|
 
 **Códigos da Resposta**
 
