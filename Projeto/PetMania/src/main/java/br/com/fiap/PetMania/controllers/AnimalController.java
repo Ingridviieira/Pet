@@ -6,6 +6,9 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -16,6 +19,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.fiap.PetMania.exception.RestNotFoundException;
@@ -28,6 +32,7 @@ import jakarta.validation.Valid;
 @RestController
 @RequestMapping("/api/v1/Animal")
 
+
 public class AnimalController {
     
     Logger log = LoggerFactory.getLogger(AnimalController.class);
@@ -38,10 +43,18 @@ public class AnimalController {
     @Autowired
     GastosRepository gastosRepository;
 
+    // @GetMapping
+    // public List<Animal> index(){
+    //     return animalRepository.findAll();
+    // }
+
     @GetMapping
-    public List<Animal> index(){
-        return animalRepository.findAll();
+    public Page<Animal> index(@RequestParam(required = false) String busca, @PageableDefault(size = 5) Pageable pageable) {
+        if (busca == null)
+            return animalRepository.findAll(pageable);
+        return animalRepository.findByNomeContaining(busca, pageable);
     }
+
 
     @PostMapping
     public ResponseEntity<Animal> create( 
