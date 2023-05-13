@@ -2,6 +2,11 @@ package br.com.fiap.PetMania.models;
 
 import java.time.LocalDate;
 
+import org.springframework.data.domain.Pageable;
+import org.springframework.hateoas.EntityModel;
+
+
+import br.com.fiap.PetMania.controllers.AnimalController;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -61,6 +66,15 @@ public class Animal {
 	@ManyToOne
     private GastosAnimal gastosAnimal;
 
+	public EntityModel<Animal> toEntityModel() {
+        return EntityModel.of(
+            this, 
+            linkTo(methodOn(AnimalController.class).show(id)).withSelfRel(),
+            linkTo(methodOn(AnimalController.class).destroy(id)).withRel("delete"),
+            linkTo(methodOn(AnimalController.class).index(null, Pageable.unpaged())).withRel("all"),
+            linkTo(methodOn(AnimalController.class).show(this.getGastosAnimal().getId())).withRel("Gastos_do_Animal")
+        );
+    }
 }
 
 
