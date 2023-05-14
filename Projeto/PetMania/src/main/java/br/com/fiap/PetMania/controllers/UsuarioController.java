@@ -8,8 +8,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+
 import br.com.fiap.PetMania.models.Credencial;
 import br.com.fiap.PetMania.models.Usuario;
+import br.com.fiap.PetMania.service.TokenService;
 import br.com.fiap.PetMania.repository.UsuarioRepository;
 import jakarta.validation.Valid;
 
@@ -25,6 +27,9 @@ public class UsuarioController {
     @Autowired
     PasswordEncoder encoder;
 
+    @Autowired
+    TokenService tokenService;
+
     @PostMapping("/api/registrar")
     public ResponseEntity<Usuario> registrar(@RequestBody @Valid Usuario usuario){
         usuario.setSenha(encoder.encode(usuario.getSenha()));
@@ -35,6 +40,7 @@ public class UsuarioController {
     @PostMapping("/api/login")
     public ResponseEntity<Object> login(@RequestBody Credencial credencial){
         manager.authenticate(credencial.toAuthentication());
-        return ResponseEntity.ok().build();
+        var token = tokenService.generateToken(credencial);
+        return ResponseEntity.ok(token);
     }
 }

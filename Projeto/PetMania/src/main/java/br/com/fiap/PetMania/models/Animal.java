@@ -1,5 +1,6 @@
 package br.com.fiap.PetMania.models;
 
+import java.lang.reflect.Method;
 import java.time.LocalDate;
 
 import org.springframework.data.domain.Pageable;
@@ -7,6 +8,7 @@ import org.springframework.hateoas.EntityModel;
 
 
 import br.com.fiap.PetMania.controllers.AnimalController;
+import br.com.fiap.PetMania.controllers.GastosController;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -22,6 +24,9 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
+
 
 @Entity
 @Data
