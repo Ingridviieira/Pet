@@ -37,7 +37,7 @@ public class DatabaseSeeder implements CommandLineRunner{
 		GastosAnimal g1 = new GastosAnimal(1L, "brinquedo", 22.5, new BigDecimal(100), "Pet");
 		GastosAnimal g2 = new GastosAnimal(2L, "comida", 10.5, new BigDecimal(100), "Food");
 		GastosAnimal g3 = new GastosAnimal(3L, "Roupa", 200.50, new BigDecimal(100), "clothes");
-		gastosRepository.saveAll(List.of(g1));
+		gastosRepository.saveAll(List.of(g1,g2,g3));
 
 
 		animalRepository.saveAll(List.of(
