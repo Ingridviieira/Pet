@@ -50,22 +50,22 @@ public class Animal {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	@NotBlank @Min( value= 4, message= "A raça deve ter no minino 4 letras")
+	//@NotBlank @Min( value= 4, message= "A raça deve ter no minino 4 letras")
 	private String raca;
 
-	@NotEmpty(message = "O campo nome não pode ser vazio")
+	//@NotEmpty(message = "O campo nome não pode ser vazio")
 	private String nome;
 
-	@NotBlank @Max( value= 7, message = "O genero deve ter no maximo 5 letra para femea ou macho")
+	//@NotBlank @Max( value= 7, message = "O genero deve ter no maximo 5 letra para femea ou macho")
 	private String genero;
 
-	@Min(value = 0, message = "A idade não deve ser inferior a 0")
+	//@Min(value = 0, message = "A idade não deve ser inferior a 0")
 	private int idade;
 
-	@Min(value = 0, message = "O peso do animal não pode ser inferior a 0")
+	//@Min(value = 0, message = "O peso do animal não pode ser inferior a 0")
 	private double peso;
 	
-	@NotNull @Past
+	//@NotNull @Past
 	private LocalDate dt_nascimento;
 
 	@ManyToOne
