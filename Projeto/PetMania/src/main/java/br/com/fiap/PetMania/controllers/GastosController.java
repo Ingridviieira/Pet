@@ -2,8 +2,6 @@ package br.com.fiap.PetMania.controllers;
 
 import java.util.List;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,9 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.com.fiap.PetMania.exception.RestNotFoundException;
 import br.com.fiap.PetMania.models.GastosAnimal;
-import br.com.fiap.PetMania.models.Animal;
 import br.com.fiap.PetMania.repository.GastosRepository;
-import br.com.fiap.PetMania.repository.AnimalRepository;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 
@@ -32,39 +28,43 @@ import lombok.extern.slf4j.Slf4j;
 public class GastosController {
 
     @Autowired
-    GastosRepository repository; 
+    GastosRepository repository;
 
     @GetMapping
     public List<GastosAnimal> index(){
+        log.info("buscando todas os gastos");
         return repository.findAll();
     }
 
     @PostMapping
     public ResponseEntity<GastosAnimal> create(
-            @RequestBody @Valid GastosAnimal gastos, 
+            @RequestBody @Valid GastosAnimal gastos,
             BindingResult result
         ){
+        log.info("cadastrando gasto: " + gastos);
         repository.save(gastos);
         return ResponseEntity.status(HttpStatus.CREATED).body(gastos);
     }
 
     @GetMapping("{id}")
     public ResponseEntity<GastosAnimal> show(@PathVariable Long id){
-        
+        log.info("buscando gasto: " + id);
         return ResponseEntity.ok(getGastos(id));
     }
 
     @DeleteMapping("{id}")
     public ResponseEntity<GastosAnimal> destroy(@PathVariable Long id){
+        log.info("apagando gasto: " + id);
         repository.delete(getGastos(id));
         return ResponseEntity.noContent().build();
     }
 
     @PutMapping("{id}")
     public ResponseEntity<GastosAnimal> update(
-        @PathVariable Long id, 
+        @PathVariable Long id,
         @RequestBody @Valid GastosAnimal gastos
     ){
+        log.info("atualizando gasto: " + id);
         getGastos(id);
         gastos.setId(id);
         repository.save(gastos);

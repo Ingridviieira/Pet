@@ -1,18 +1,11 @@
 package br.com.fiap.PetMania.controllers;
 
-import java.util.List;
-
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.data.web.PagedResourcesAssembler;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.PagedModel;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -29,19 +22,23 @@ import br.com.fiap.PetMania.exception.RestNotFoundException;
 import br.com.fiap.PetMania.models.Animal;
 import br.com.fiap.PetMania.repository.AnimalRepository;
 import br.com.fiap.PetMania.repository.GastosRepository;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
-
+import lombok.extern.slf4j.Slf4j;
 
 @RestController
 @RequestMapping("/api/v1/Animal")
-
-
+@Slf4j
+@SecurityRequirement(name = "bearer-key")
+@Tag(name = "animal")
 public class AnimalController {
-    
-    Logger log = LoggerFactory.getLogger(AnimalController.class);
 
     @Autowired
-    AnimalRepository animalRepository; 
+    AnimalRepository animalRepository;
 
     @Autowired
     GastosRepository gastosRepository;
@@ -49,26 +46,23 @@ public class AnimalController {
     @Autowired
     PagedResourcesAssembler<Object> assembler;
 
-    // @GetMapping
-    // public List<Animal> index(){
-    //     return animalRepository.findAll();
-    // }
-
     @GetMapping
     public PagedModel<EntityModel<Object>> index(@RequestParam(required = false) String busca, @PageableDefault(size = 5) Pageable pageable) {
-        var animal = (busca == null) ? 
-            animalRepository.findAll(pageable): 
+        var animal = (busca == null) ?
+            animalRepository.findAll(pageable):
             animalRepository.findByNomeContaining(busca, pageable);
 
-        return assembler.toModel(animal.map(Animal::toEntityModel)); 
+        return assembler.toModel(animal.map(Animal::toEntityModel));
     }
 
-
     @PostMapping
-    public ResponseEntity<EntityModel<Animal>> create( 
-        @RequestBody @Valid Animal animal, 
-        BindingResult result
-        ){
+    @ApiResponses({
+        @ApiResponse(responseCode = "201", description = "o animal foi cadastrado com sucesso"),
+        @ApiResponse(responseCode = "400", description = "os dados enviados são inválidos")
+    })
+    public ResponseEntity<EntityModel<Animal>> create(
+        @RequestBody @Valid Animal animal,
+        BindingResult result){
         log.info("cadastrando de animal: " + animal);
         animalRepository.save(animal);
         animal.setGastosAnimal(gastosRepository.findById(animal.getGastosAnimal().getId()).get());
@@ -78,38 +72,38 @@ public class AnimalController {
     }
 
     @GetMapping("{id}")
+    @Operation(
+        summary = "Detalhes do animal",
+        description = "Retornar os dados do animal de acordo com o id informado no path"
+    )
     public EntityModel<Animal> show(
-        @PathVariable Long id
-        ){
+        @PathVariable Long id){
         log.info("Buscando Animal: " + id);
         return getAnimal(id).toEntityModel();
     }
 
     @DeleteMapping("{id}")
     public ResponseEntity<Animal> destroy(
-        @PathVariable Long id
-        ){
+        @PathVariable Long id){
         log.info("Apagando Animal: " + id);
         animalRepository.delete(getAnimal(id));
-        return ResponseEntity.noContent().build();  
+        return ResponseEntity.noContent().build();
     }
 
     @PutMapping("{id}")
     public ResponseEntity<Animal> update(
-        @PathVariable Long id, 
-        @RequestBody @Valid Animal animal
-        ){
+        @PathVariable Long id,
+        @RequestBody @Valid Animal animal){
         log.info("Editando animal: " + id);
         getAnimal(id);
         animal.setId(id);
         animalRepository.save(animal);
         return ResponseEntity.ok(animal);
-        }
+    }
 
-        private Animal getAnimal(Long id) {
-            return animalRepository.findById(id).orElseThrow(
-                () -> new RestNotFoundException("Animal não encontrado"));
-        }
+    private Animal getAnimal(Long id) {
+        return animalRepository.findById(id).orElseThrow(
+            () -> new RestNotFoundException("Animal não encontrado"));
+    }
+
 }
-
-

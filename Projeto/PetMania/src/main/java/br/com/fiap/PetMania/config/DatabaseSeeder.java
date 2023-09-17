@@ -34,22 +34,21 @@ public class DatabaseSeeder implements CommandLineRunner{
 		// animalRepository.saveAll(List.of(a1, a2));
 
 		
-		GastosAnimal g1 = new GastosAnimal(1L, "brinquedo", 22.5, new BigDecimal(100), "Pet");
-		GastosAnimal g2 = new GastosAnimal(2L, "comida", 10.5, new BigDecimal(100), "Food");
-		GastosAnimal g3 = new GastosAnimal(3L, "Roupa", 200.50, new BigDecimal(100), "clothes");
+		GastosAnimal g1 = new GastosAnimal(1L, "brinquedo", new BigDecimal(100), "Pet");
+		GastosAnimal g2 = new GastosAnimal(2L, "comida",new BigDecimal(100), "Food");
+		GastosAnimal g3 = new GastosAnimal(3L, "Roupa", new BigDecimal(100), "clothes");
 		gastosRepository.saveAll(List.of(g1,g2,g3));
 
 
 		animalRepository.saveAll(List.of(
 			Animal.builder().raca("Shih tzu").nome("Snoopy").idade(2).peso(12.0).gastosAnimal(g1).build(),
 			Animal.builder().raca("Yorkshire").nome("Pedro").idade(2).peso(3.4).gastosAnimal(g2).build(),
-			Animal.builder().raca("Pug").nome("Bil").idade(5).peso(6.3).gastosAnimal(g3).build()
-
-
+			Animal.builder().raca("Pug").nome("Bil").idade(5).peso(6.3).gastosAnimal(g3).build(),
+			Animal.builder().raca("Shih tzu").nome("bob").idade(4).peso(15.0).gastosAnimal(g1).build(),
+			Animal.builder().raca("Shih tzu").nome("jorge").idade(1).peso(5.9).gastosAnimal(g1).build()
 		));
 
 	}
-
 }
 
 
