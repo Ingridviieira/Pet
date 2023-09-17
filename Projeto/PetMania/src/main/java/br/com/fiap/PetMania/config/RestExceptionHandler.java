@@ -18,7 +18,7 @@ public class RestExceptionHandler {
     public ResponseEntity<List<RestValidationError>> constraintViolationExceptionHandler(ConstraintViolationException e){
         List<RestValidationError> errors = new ArrayList<>();
 
-        e.getConstraintViolations().forEach((v) -> { 
+        e.getConstraintViolations().forEach((v) -> {
             errors.add(new RestValidationError(v.getPropertyPath().toString(), v.getMessage()));
         });
 
