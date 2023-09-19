@@ -11,12 +11,10 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 
-
 import br.com.fiap.PetMania.models.Credencial;
 import br.com.fiap.PetMania.models.Token;
 import br.com.fiap.PetMania.models.Usuario;
 import br.com.fiap.PetMania.repository.UsuarioRepository;
-
 
 @Service
 public class TokenService {
@@ -41,7 +39,7 @@ public class TokenService {
     public Usuario getUserByToken(String token) {
         Algorithm alg = Algorithm.HMAC256(secret);
         var email = JWT.require(alg)
-                    .withIssuer("Nubeck")
+                    .withIssuer("PetMania")
                     .build()
                     .verify(token)
                     .getSubject();

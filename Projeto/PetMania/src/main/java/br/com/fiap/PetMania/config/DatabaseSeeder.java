@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 
 import br.com.fiap.PetMania.models.Animal;
 import br.com.fiap.PetMania.models.GastosAnimal;
@@ -13,6 +14,7 @@ import br.com.fiap.PetMania.repository.AnimalRepository;
 import br.com.fiap.PetMania.repository.GastosRepository;
 
 @Configuration
+@Profile("dev")
 public class DatabaseSeeder implements CommandLineRunner{
 
 	@Autowired
@@ -24,16 +26,6 @@ public class DatabaseSeeder implements CommandLineRunner{
 	@Override
 	public void run(String... args) throws Exception {
 
-		
-		// Animal a1 = new Animal(id: 1L, raca:"Shih-tzu", nome: "Snoopy", genero: "Macho", idade: 2, peso: 12.0);
-		// Animal a2 = new Animal(id: 2L, raca:"Siamês", nome: "Mia", genero: "Femea", idade: 1, peso: 3.8);
-		// animalRepository.saveAll(List.of(a1,a2));
-
-		// Animal a1 = new Animal(id: 1L, raca:"Shih-tzu", nome: "Snoopy", genero: "Macho",idade: 2, peso:12.0);
-		// Animal a2 = new Animal(2L, "Siamês", "Mia", "Femea", 1, 3.8, null, null);
-		// animalRepository.saveAll(List.of(a1, a2));
-
-		
 		GastosAnimal g1 = new GastosAnimal(1L, "brinquedo", new BigDecimal(100), "Pet");
 		GastosAnimal g2 = new GastosAnimal(2L, "comida",new BigDecimal(100), "Food");
 		GastosAnimal g3 = new GastosAnimal(3L, "Roupa", new BigDecimal(100), "clothes");
@@ -50,18 +42,4 @@ public class DatabaseSeeder implements CommandLineRunner{
 
 	}
 }
-
-
-
-	// private Long id;
-	// private String raca;
-	// private String nome;
-	// private String genero;
-	// private int idade
-	// private double peso;
-	// private LocalDate dt_nascimento;
-
-
-// gastosRepository.saveAll(List.of(
-// 			new GastosAnimal(1L, "brinquedo", 22.5, new BigDecimal(100), "Pet")
-			
+		

@@ -1,5 +1,3 @@
-//Arrumando as mensangens do sistema HTTP 
-
 package br.com.fiap.PetMania.exception;
 
 import org.springframework.http.HttpStatus;
